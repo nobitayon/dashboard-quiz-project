@@ -1,0 +1,5 @@
+export {default as Dashboard} from './dashboard'
+export {default as Students} from './students'
+export {default as Layout} from './layout'
+export {default as Login} from './login'
+export {default as Quiz} from './quiz'
