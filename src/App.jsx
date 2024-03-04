@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Dashboard, Layout, Students, Login, Quiz } from './pages'
+import { Dashboard, Layout, Students, Login, Quiz, Pertanyaan } from './pages'
 import { AuthProvider } from './hooks/useAuth'
 import ProtectedRoute from './route/ProtectedRoute'
 
@@ -20,6 +20,7 @@ const App = () => {
             </ProtectedRoute>}>
             <Route index element={<Dashboard />} />
             <Route path='/dashboard/quiz/:quizId' element={<Quiz/>}/>
+            <Route path='/dashboard/quiz/:quizId/newPertanyaan' element={<Pertanyaan/>}/>
           </Route>
         </Routes>
       </AuthProvider>

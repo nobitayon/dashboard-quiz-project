@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { TablePertanyaan } from '../../components/molecules';
 
 const index = () => {
@@ -37,6 +37,8 @@ const index = () => {
     setWaktuSelesai(data.waktuSelesai)
 
   }
+
+  const navigate = useNavigate()
 
   const getPertanyaan = async () => {
     const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
@@ -137,61 +139,66 @@ const index = () => {
 
 
   return (
-    <div className='p-4 h-full w-full flex justify-center'>
-      <form onSubmit={() => {
+    <div className='p-4 h-full w-full flex flex-col justify-center'>
+      <div className='w-full flex justify-center'>
+        <form className='w-full'> 
+          <div className='flex flex-col w-full gap-4 justify-center items-center'>
 
-      }}>
-        <div className='flex flex-col w-full gap-4'>
+            <label className='form-control w-full max-w-xs '>
+              <div className='label'>
+                <span className='label-text'>Judul</span>
+              </div>
+              <input className='input input-bordered w-full max-w-x' type='text' value={judul ? judul : ""} onChange={(e) => setJudul(e.target.value)} disabled={isDisabled} />
+            </label>
 
-          <label className='form-control w-full max-w-xs '>
-            <div className='label'>
-              <span className='label-text'>Judul</span>
-            </div>
-            <input className='input input-bordered w-full max-w-x' type='text' value={judul ? judul : ""} onChange={(e) => setJudul(e.target.value)} disabled={isDisabled} />
-          </label>
+            <label className='form-control w-full max-w-xs '>
+              <div className='label'>
+                <span className='label-text'>Deskripsi</span>
+              </div>
+              <input className='input input-bordered w-full max-w-x' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
+            </label>
 
-          <label className='form-control w-full max-w-xs '>
-            <div className='label'>
-              <span className='label-text'>Deskripsi</span>
-            </div>
-            <input className='input input-bordered w-full max-w-x' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
-          </label>
+            <label className='form-control w-full max-w-xs '>
+              <div className='label'>
+                <span className='label-text'>Deskripsi</span>
+              </div>
+              <input className='input input-bordered w-full max-w-x' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
+            </label>
 
-          <label className='form-control w-full max-w-xs '>
-            <div className='label'>
-              <span className='label-text'>Deskripsi</span>
-            </div>
-            <input className='input input-bordered w-full max-w-x' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
-          </label>
+            <label className='form-control w-full max-w-xs '>
+              <div className='label'>
+                <span className='label-text'>Waktu Mulai</span>
+              </div>
+              <input className='input input-bordered w-full max-w-x' type='text' value={waktuMulai ? waktuMulai : ""} onChange={(e) => setWaktuMulai(e.target.value)} disabled={isDisabled} />
+            </label>
 
-          <label className='form-control w-full max-w-xs '>
-            <div className='label'>
-              <span className='label-text'>Waktu Mulai</span>
-            </div>
-            <input className='input input-bordered w-full max-w-x' type='text' value={waktuMulai ? waktuMulai : ""} onChange={(e) => setWaktuMulai(e.target.value)} disabled={isDisabled} />
-          </label>
+            <label className='form-control w-full max-w-xs '>
+              <div className='label'>
+                <span className='label-text'>Waktu Selesai</span>
+              </div>
+              <input className='input input-bordered w-full max-w-x' type='text' value={waktuSelesai ? waktuSelesai : ""} onChange={(e) => setWaktuSelesai(e.target.value)} disabled={isDisabled} />
+            </label>
 
-          <label className='form-control w-full max-w-xs '>
-            <div className='label'>
-              <span className='label-text'>Waktu Selesai</span>
-            </div>
-            <input className='input input-bordered w-full max-w-x' type='text' value={waktuSelesai ? waktuSelesai : ""} onChange={(e) => setWaktuSelesai(e.target.value)} disabled={isDisabled} />
-          </label>
-
-        </div>
-
-
-        {editMode ? (
-          <div className='flex gap-4 justify-center'>
-            <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={(e) => handleSubmitEdit(e)}>simpan edit</button>
-            <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={(e) => handleBatalEdit(e)}>batal edit</button>
           </div>
-        ) :
-          (<div className='flex justify-center'>
-            <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={handleEditMode}>masuk ke edit mode</button>
-          </div>)}
-      </form>
-      <TablePertanyaan  data={pertanyaans} />
+
+
+          {editMode ? (
+            <div className='flex gap-4 justify-center'>
+              <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={(e) => handleSubmitEdit(e)}>simpan edit</button>
+              <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={(e) => handleBatalEdit(e)}>batal edit</button>
+            </div>
+          ) :
+            (<div className='flex justify-center'>
+              <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={handleEditMode}>masuk ke edit mode</button>
+            </div>)}
+        </form>
+        <div className='flex flex-col w-full justify-center items-center'>
+          <TablePertanyaan data={pertanyaans} />
+          <button type='submit' className='mt-10 w-1/3 btn btn-primary' onClick={()=>navigate(`/dashboard/quiz/${quizId}/newPertanyaan`)}>
+            membuat pertanyaan baru 
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
