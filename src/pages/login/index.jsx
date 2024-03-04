@@ -1,15 +1,55 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../../hooks/useAuth';
-
+import { useNavigate } from 'react-router-dom';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const Login = () => {
   const { register, handleSubmit } = useForm()
-  const { login } = useAuth();
+  const { login, setInfoLogin } = useAuth();
+
+
+  const navigate = useNavigate()
 
   // panggil api login
   const onSubmit = async (data) => {
-    await login({ username:data.email });
+    const { status, body } = await login({ username: data.email, password: data.password })
+
+    if (status === 200) {
+      if (body.role != "admin") {
+        toast.error("tidak diizinkan", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      } else {
+        setInfoLogin({ user: data.email, token: body.token, role: body.role })
+        navigate("/dashboard")
+      }
+
+    } else {
+      toast.error(body.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+
+
+
   }
 
   return (
@@ -35,7 +75,8 @@ const Login = () => {
             })}
             type="email"
             placeholder='email'
-            className='w-full max-w-xs'
+            className="input input-bordered w-full max-w-xs"
+            value={"admin@admin.com"}
           />
         </label>
 
@@ -50,10 +91,9 @@ const Login = () => {
             placeholder="password"
             {...register("password", { required: true, maxLength: 20 })}
             className="input input-bordered w-full max-w-xs"
+            value={"admin123"}
           />
-          {/* <div className="label">
-          <span className="label-text-alt">Bottom Left label</span>
-        </div> */}
+
         </label>
 
 
@@ -63,6 +103,19 @@ const Login = () => {
 
 
       </form>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </div>
   )
 }

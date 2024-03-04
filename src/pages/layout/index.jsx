@@ -5,12 +5,12 @@ import Sidebar from '../../components/molecules/sidebar'
 
 const Layout = () => {
   return (
-    <div className='flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden'>
+    <div className='flex w-full'>
 
-      <Sidebar />
-      <div className='p-4'>
+      <Sidebar className="h-full mr-24" style={{position: 'fixed', left: '0px' }}/>
+      <div className='p-4 w-full' style={{marginLeft:'150px'}}>
         <Header />
-        <div><Outlet /></div>
+        <div className='justify-center'><Outlet /></div>
       </div>
     </div>
   )

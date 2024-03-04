@@ -3,9 +3,8 @@ import { useAuth } from '../hooks/useAuth'
 import { Navigate } from 'react-router-dom'
 
 const ProtectedRoute = ({children}) => {
-    const {user} = useAuth()
-    console.log(user)
-    if (!user){
+    const {infoLogin:{role}} = useAuth()
+    if (role!="admin"){
         // user is not authenticated
         return <Navigate to="/"/>
     }

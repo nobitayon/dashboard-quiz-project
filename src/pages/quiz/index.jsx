@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import { TablePertanyaan } from '../../components/molecules';
 
 const index = () => {
   let { quizId } = useParams();
@@ -10,6 +11,8 @@ const index = () => {
   const [waktuMulai, setWaktuMulai] = useState("")
   const [waktuSelesai, setWaktuSelesai] = useState("")
   const [isDisabled, setIsDisabled] = useState(true)
+
+  const [pertanyaans, setPertanyaans] = useState([])
 
   const getQuiz = async () => {
     const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
@@ -35,12 +38,40 @@ const index = () => {
 
   }
 
+  const getPertanyaan = async () => {
+    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
+    const response = await fetch(`http://127.0.0.1:8000/api/v1/quiz/${quizId}/pertanyaan`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      }
+    })
+
+
+    if (response.status !== 200) {
+      return
+    }
+
+    const data = await response.json()
+
+
+    setPertanyaans(data)
+  }
+
   useEffect(() => {
     getQuiz()
     // console.log('use effect', new Date().toLocaleTimeString())
     // const intervalId = setInterval(getQuiz, 5000)
     // return () => clearInterval(intervalId);
   }, [])
+
+  useEffect(() => {
+    getPertanyaan()
+    // console.log('use effect', new Date().toLocaleTimeString())
+    // const intervalId = setInterval(getQuiz, 5000)
+    // return () => clearInterval(intervalId);
+  }, [])
+
 
   const [editMode, setEditMode] = useState(false)
   const [pastEditState, setPastEditState] = useState({})
@@ -53,10 +84,10 @@ const index = () => {
     setEditMode(true)
 
     setPastEditState({
-      judul:judul,
-      deskripsi:deskripsi,
-      waktuMulai:waktuMulai,
-      waktuSelesai:waktuSelesai
+      judul: judul,
+      deskripsi: deskripsi,
+      waktuMulai: waktuMulai,
+      waktuSelesai: waktuSelesai
     })
 
   }
@@ -86,10 +117,10 @@ const index = () => {
     setWaktuSelesai(jsonResponse.waktuSelesai)
 
     setPastEditState({
-      judul:judul,
-      deskripsi:deskripsi,
-      waktuMulai:waktuMulai,
-      waktuSelesai:waktuMulai
+      judul: judul,
+      deskripsi: deskripsi,
+      waktuMulai: waktuMulai,
+      waktuSelesai: waktuMulai
     })
   }
 
@@ -106,48 +137,49 @@ const index = () => {
 
 
   return (
-    <div className='p-4 h-full w-full border border-black bg-[#ADD8E6]'>
+    <div className='p-4 h-full w-full flex justify-center'>
       <form onSubmit={() => {
 
       }}>
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col w-full gap-4'>
 
-          <div className='flex flex-row gap-2 justify-center items-center'>
-            <div className='p-4 w-[100px] h-[40px] bg-slate-200 flex justify-start items-center'>
-              <label>Judul</label>
+          <label className='form-control w-full max-w-xs '>
+            <div className='label'>
+              <span className='label-text'>Judul</span>
             </div>
-            <input className='p-4 h-[40px] bg-slate-200' type='text' value={judul ? judul : ""} onChange={(e) => setJudul(e.target.value)} disabled={isDisabled} />
-          </div>
+            <input className='input input-bordered w-full max-w-x' type='text' value={judul ? judul : ""} onChange={(e) => setJudul(e.target.value)} disabled={isDisabled} />
+          </label>
 
-          <div className='flex flex-row gap-2 justify-center items-center '>
-            <div className='p-4 w-[100px] bg-slate-200 flex justify-start items-center'>
-              <label>Deskripsi</label>
+          <label className='form-control w-full max-w-xs '>
+            <div className='label'>
+              <span className='label-text'>Deskripsi</span>
             </div>
-            <input className='p-4 bg-slate-200' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
-          </div>
+            <input className='input input-bordered w-full max-w-x' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
+          </label>
 
-
-          <div className='flex flex-row gap-2 justify-center items-center '>
-            <div className='p-4 w-[100px] bg-slate-200 flex justify-start items-center'>
-              <label>Waktu Mulai</label>
+          <label className='form-control w-full max-w-xs '>
+            <div className='label'>
+              <span className='label-text'>Deskripsi</span>
             </div>
-            <input className='p-4 bg-slate-200' type='text' value={waktuMulai ? waktuMulai : ""} onChange={(e) => setWaktuMulai(e.target.value)} disabled={isDisabled} />
-          </div>
+            <input className='input input-bordered w-full max-w-x' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
+          </label>
 
-
-          <div className='flex flex-row gap-2 justify-center items-center '>
-            <div className='p-4 w-[100px] bg-slate-200 flex justify-start items-center'>
-              <label>Waktu Selesai</label>
+          <label className='form-control w-full max-w-xs '>
+            <div className='label'>
+              <span className='label-text'>Waktu Mulai</span>
             </div>
-            <input className='p-4 bg-slate-200' type='text' value={waktuSelesai ? waktuSelesai : ""} onChange={(e) => setWaktuSelesai(e.target.value)} disabled={isDisabled} />
-          </div>
+            <input className='input input-bordered w-full max-w-x' type='text' value={waktuMulai ? waktuMulai : ""} onChange={(e) => setWaktuMulai(e.target.value)} disabled={isDisabled} />
+          </label>
+
+          <label className='form-control w-full max-w-xs '>
+            <div className='label'>
+              <span className='label-text'>Waktu Selesai</span>
+            </div>
+            <input className='input input-bordered w-full max-w-x' type='text' value={waktuSelesai ? waktuSelesai : ""} onChange={(e) => setWaktuSelesai(e.target.value)} disabled={isDisabled} />
+          </label>
+
         </div>
 
-        {/* {editMode && (
-          <div className='flex justify-center items-center'>
-            <button className='p-4 bg-slate-200 mt-2'>Edit informasi quiz</button>
-          </div>
-        )} */}
 
         {editMode ? (
           <div className='flex gap-4 justify-center'>
@@ -158,9 +190,8 @@ const index = () => {
           (<div className='flex justify-center'>
             <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={handleEditMode}>masuk ke edit mode</button>
           </div>)}
-
-
       </form>
+      <TablePertanyaan  data={pertanyaans} />
     </div>
   )
 }
