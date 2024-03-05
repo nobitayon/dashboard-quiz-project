@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Bounce, ToastContainer, toast } from 'react-toastify'
 import { useAuth } from '../../hooks/useAuth'
+import { backendURL } from '../../constEnv';
 
 function getCurrentDateTimeInISO8601(tambahMenit) {
     const now = new Date();
@@ -20,18 +21,17 @@ const QuizCreatePage = () => {
     const [judul, setJudul] = useState("")
     const [deskripsi, setDeskripsi] = useState("")
     const [waktuMulai, setWaktuMulai] = useState(getCurrentDateTimeInISO8601(0))
-    const [waktuSelesai, setWaktuSelesai] = useState(getCurrentDateTimeInISO8601(30))
+    const [waktuSelesai, setWaktuSelesai] = useState(getCurrentDateTimeInISO8601(0))
 
 
     const { infoLogin: { token } } = useAuth()
+    
 
     const handleSubmit = async (event) => {
 
         event.preventDefault()
 
-        console.log(waktuMulai, waktuSelesai)
-
-        const response = await fetch(`http://localhost:8000/api/v1/quiz`, {
+        const response = await fetch(`${backendURL}/quiz`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,9 +71,9 @@ const QuizCreatePage = () => {
             });
         }
 
-        // const jsonData = await response.json()
+        const jsonData = await response.json()
 
-        // console.log(jsonData)
+        console.log(jsonData)
     }
 
     return (

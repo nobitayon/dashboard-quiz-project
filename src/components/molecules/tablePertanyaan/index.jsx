@@ -180,7 +180,7 @@ const index = (props) => {
                                         <td><input name='opsiJawaban' disabled placeholder={item.opsiJawaban} /></td>
                                         <td><input name='jawabanBenar' disabled placeholder={item.jawabanBenar} /></td>
                                         <td ><GoLinkExternal onClick={(event) => toggleEditMode(event)} className='hover:cursor-pointer' /></td>
-                                        <td className='simpanButton' style={{ display: 'none' }} ><GoLinkExternal className='hover:cursor-pointer' onClick={(event) => handleToPertanyaan(event, item.idQuiz)} /></td>
+                                        <td className='simpanButton' style={{ display: 'none' }} ><GoLinkExternal className='hover:cursor-pointer' onClick={(event) => handleToPertanyaan(event, item.idQuiz)} /></td> 
                                     </tr>
                                 )
                             )

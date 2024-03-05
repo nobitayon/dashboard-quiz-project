@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { TablePertanyaan } from '../../components/molecules';
 import { backendURL } from '../../constEnv';
+import { useAuth } from '../../hooks/useAuth';
 
 const index = () => {
   let { quizId } = useParams();
@@ -14,10 +15,12 @@ const index = () => {
   const [isDisabled, setIsDisabled] = useState(true)
 
   const [pertanyaans, setPertanyaans] = useState([])
+  const { infoLogin: { token: authToken } } = useAuth()
 
   const getQuiz = async () => {
-    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/quiz/${quizId}`, {
+    // const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
+    
+    const response = await fetch(`${backendURL}/quiz/${quizId}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken}`
@@ -42,8 +45,9 @@ const index = () => {
   const navigate = useNavigate()
 
   const getPertanyaan = async () => {
-    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/quiz/${quizId}/pertanyaan`, {
+    // const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
+    const { infoLogin: { token: authToken } } = useAuth()
+    const response = await fetch(`${backendURL}/quiz/${quizId}/pertanyaan`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken}`
@@ -79,8 +83,8 @@ const index = () => {
   const [editMode, setEditMode] = useState(false)
   const [pastEditState, setPastEditState] = useState({})
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
-
+  // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
+  // const { infoLogin: { token } } = useAuth()
   const handleEditMode = (e) => {
     e.preventDefault()
     setIsDisabled(false)
@@ -103,7 +107,7 @@ const index = () => {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+        'Authorization': `Bearer ${authToken}` // Include the token in the Authorization header
       },
       body: JSON.stringify({ judul, deskripsi, waktuMulai, waktuSelesai })
     })
@@ -127,6 +131,7 @@ const index = () => {
       waktuSelesai: waktuMulai
     })
   }
+
 
   const handleBatalEdit = (e) => {
     e.preventDefault()
@@ -160,12 +165,6 @@ const index = () => {
               <input className='input input-bordered w-full max-w-x' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
             </label>
 
-            <label className='form-control w-full max-w-xs '>
-              <div className='label'>
-                <span className='label-text'>Deskripsi</span>
-              </div>
-              <input className='input input-bordered w-full max-w-x' type='text' value={deskripsi ? deskripsi : ""} onChange={(e) => setDeskripsi(e.target.value)} disabled={isDisabled} />
-            </label>
 
             <label className='form-control w-full max-w-xs '>
               <div className='label'>
@@ -190,10 +189,11 @@ const index = () => {
               <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={(e) => handleBatalEdit(e)}>batal edit</button>
             </div>
           ) :
-            (<div className='flex justify-center'>
+            (<div className='flex w-full justify-center items-center'>
               <button className={classNames(buttonStyle, 'bg-slate-200')} onClick={handleEditMode}>masuk ke edit mode</button>
             </div>)}
         </form>
+        
         <div className='flex flex-col w-full justify-center items-center'>
           <TablePertanyaan data={pertanyaans} quizId={quizId} />
           <button type='submit' className='mt-10 w-1/3 btn btn-primary' onClick={()=>navigate(`/dashboard/quiz/${quizId}/newPertanyaan`)}>

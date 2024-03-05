@@ -76,7 +76,7 @@ const Login = () => {
             type="email"
             placeholder='email'
             className="input input-bordered w-full max-w-xs"
-            value={"admin@admin.com"}
+            // value={"admin@admin.com"}
           />
         </label>
 
@@ -91,7 +91,7 @@ const Login = () => {
             placeholder="password"
             {...register("password", { required: true, maxLength: 20 })}
             className="input input-bordered w-full max-w-xs"
-            value={"admin123"}
+            // value={"admin123"}
           />
 
         </label>
