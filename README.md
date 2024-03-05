@@ -15,3 +15,4 @@
 
 ## Sedikit demo, karena front end ini sangat sederhana
 https://drive.google.com/file/d/1SzrZrUycZ9tUCICalOFLiopV-8DSfYXK/view?usp=sharing 
+* ada kesalahan pada demo, karena saya membuat waktu selesainya jam 24(tidak valid)
