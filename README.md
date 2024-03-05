@@ -1,8 +1,17 @@
-# React + Vite
+## Frontend sederhana untuk dashboard aplikasi quiz online
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- menampilkan quiz aktif dan selesai
+- membuat quiz baru
+- edit quiz
+- edit pertanyaan pada quiz
+- menambah pertanyaan pada quiz
 
-Currently, two official plugins are available:
+## Cara menjalankan project
+- Menyesuaikan backendURL yang berada pada file src\constEnv.js
+- Memastikan allowed origin yang berada pada backend sesuai dengan project frontend ini
+- Login dengan user role admin
+    - pada tabel user yang saya buat di backend, salah satunya adalah admin@admin.com dengan password admin123
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Sedikit demo, karena front end ini sangat sederhana
+https://drive.google.com/file/d/1SzrZrUycZ9tUCICalOFLiopV-8DSfYXK/view?usp=sharing 
