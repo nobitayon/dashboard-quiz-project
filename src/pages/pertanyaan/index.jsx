@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { backendURL } from '../../constEnv';
 
 const Pertanyaan = () => {
     let { quizId } = useParams();
@@ -16,16 +17,15 @@ const Pertanyaan = () => {
 
         event.preventDefault()
 
-        const response = await fetch(`http://localhost:8000/api/v1/quiz/${quizId}/pertanyaan`, {
+        const response = await fetch(`${backendURL}/quiz/${quizId}/pertanyaan`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+                'Authorization': `Bearer ${token}` 
             },
             body: JSON.stringify({ pertanyaan: pertanyaan, opsiJawaban: opsiJawabanBenar, jawabanBenar: parseInt(jawabanBenar) })
         })
 
-        console.log(response.status)
 
         if (response.status === 200) {
             toast.success('sukses menambah pertanyaan', {

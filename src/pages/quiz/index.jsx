@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { TablePertanyaan } from '../../components/molecules';
+import { backendURL } from '../../constEnv';
 
 const index = () => {
   let { quizId } = useParams();
@@ -98,7 +99,7 @@ const index = () => {
     e.preventDefault()
 
 
-    const response = await fetch(`http://localhost:8000/api/v1/quiz/${quizId}`, {
+    const response = await fetch(`${backendURL}/quiz/${quizId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -107,11 +108,12 @@ const index = () => {
       body: JSON.stringify({ judul, deskripsi, waktuMulai, waktuSelesai })
     })
 
-
     setIsDisabled(true)
     setEditMode(false)
 
-    const jsonResponse = response.json()
+    const jsonResponse = await response.json()
+
+
 
     setJudul(jsonResponse.judul)
     setDeskripsi(jsonResponse.deskripsi)

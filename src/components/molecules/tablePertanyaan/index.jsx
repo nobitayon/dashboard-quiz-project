@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoLinkExternal } from "react-icons/go";
 import { useNavigate } from 'react-router-dom';
 import { backendURL } from '../../../constEnv'
 import 'react-toastify/dist/ReactToastify.css'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { useAuth } from '../../../hooks/useAuth';
 
 const index = (props) => {
     const { data } = props
-    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsInJvbGUiOiJhZG1pbiJ9.m82u9ZQfMHLEeB_kbSynmssNkulfr4ATylYybfHjZ8U"
 
+
+    
+    const { infoLogin: { token: authToken } } = useAuth()
 
     const navigate = useNavigate()
 
@@ -21,6 +24,7 @@ const index = (props) => {
 
         const pertanyaan = event.currentTarget.parentElement.parentElement.querySelector('td:nth-child(3)').querySelector('input').value
         const opsiJawaban = event.currentTarget.parentElement.parentElement.querySelector('td:nth-child(4)').querySelector('input').value
+        const elementJawabanBenar = event.currentTarget.parentElement.parentElement.querySelector('td:nth-child(5)').querySelector('input')
         const jawabanBenar = parseInt(event.currentTarget.parentElement.parentElement.querySelector('td:nth-child(5)').querySelector('input').value)
 
 
@@ -45,6 +49,8 @@ const index = (props) => {
                 theme: "light",
                 transition: Bounce,
             });
+
+            const json_data = await response.json()
         } else {
             toast.error('Gagal edit data', {
                 position: "top-center",
@@ -58,11 +64,7 @@ const index = (props) => {
                 transition: Bounce,
             });
         }
-
-        const json_data = await response.json()
         
-        console.log(json_data)
-
 
     }
 
@@ -104,7 +106,6 @@ const index = (props) => {
             simpanButton.style.display = "none"
         }
     }
-
 
     return (
         <div>
