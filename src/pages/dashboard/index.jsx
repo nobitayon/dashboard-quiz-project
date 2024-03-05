@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setErrorFetchQuiz, setQuiz } from '../../service/quiz/quizSlice'
 import { useAuth } from '../../hooks/useAuth'
 import { backendURL } from '../../constEnv'
+import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
   const { infoLogin: { token: authToken } } = useAuth()
@@ -13,6 +14,12 @@ const Dashboard = () => {
   const quizs = useSelector((state) => state.quiz.quizs)
 
   const errorFetchQuiz = useSelector((state) => state.quiz.errorFetchQuiz)
+
+  const navigate = useNavigate()
+
+  const handleSubmit = () => {
+    navigate("/dashboard/newQuiz")
+  }
 
   const getQuiz = async () => {
 
@@ -35,7 +42,10 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    getQuiz()
+    setInterval(() => {
+      getQuiz()
+    },3000)
+
   }, [])
 
   return (
@@ -44,7 +54,7 @@ const Dashboard = () => {
       {/* <Cards/> */}
       {!errorFetchQuiz ? (
         <div className='flex flex-col gap-10'>
-          <QuizSection data={quizs} isActive={(a, b, t) => t > a && t < b} title={"Quiz aktif"} titleMore={"Lihat semua quiz aktif"} lihatSemua={() => { console.log('lihat semua function') }} />
+          <QuizSection data={quizs} isActive={(a, b, t) => t >= a && t <= b} title={"Quiz aktif"} titleMore={"Lihat semua quiz aktif"} lihatSemua={() => { console.log('lihat semua function') }} />
           <QuizSection data={quizs} isActive={(a, b, t) => t > b && true} title={"Quiz selesai"} titleMore={"Lihat semua quiz selesai"} lihatSemua={() => { console.log('lihat semua function') }} />
         </div>
       ) : (
@@ -55,7 +65,11 @@ const Dashboard = () => {
             </div>
           </div>
         </div>)}
-
+      <div className='w-full flex justify-center'>
+        <button type='submit' className='mt-10 max-w-xs btn btn-primary' onClick={(event) => handleSubmit(event)}>
+          membuat quiz baru
+        </button>
+      </div>
     </div>
   )
 }

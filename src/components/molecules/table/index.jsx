@@ -1,6 +1,7 @@
 import React from 'react'
 import { GoLinkExternal } from "react-icons/go";
 import { useNavigate } from 'react-router-dom';
+import { convertToUnix } from '../../../lib/util/dateRelated';
 
 const index = (props) => {
     const { error, data, time, isActive: isActiveFun } = props
@@ -32,10 +33,18 @@ const index = (props) => {
                     <tbody>
 
                         {data.map((item, index) => {
-                            let waktuMulai = new Date(item.waktuMulai)
-                            waktuMulai = waktuMulai.getTime()
-                            let waktuSelesai = new Date(item.waktuSelesai)
-                            waktuSelesai = waktuSelesai.getTime()
+                            // let waktuMulai = new Date(item.waktuMulai).toISOString()
+                            // waktuMulai = new Date(waktuMulai)
+                            // waktuMulai = waktuMulai.getTime()
+                            // let waktuSelesai = new Date(item.waktuSelesai).toISOString()
+                            // waktuSelesai = new Date(waktuSelesai)
+                            // waktuSelesai = waktuSelesai.getTime()
+
+                            // console.log(waktuMulai,waktuSelesai,time)
+
+                            let waktuMulai = convertToUnix(item.waktuMulai)
+                            let waktuSelesai = convertToUnix(item.waktuSelesai)
+
                             const isActive = isActiveFun(waktuMulai, waktuSelesai, time)
                             return (
                                 isActive && (

@@ -18,8 +18,8 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 	},
 	{
 		key: 'student',
-		label: 'Student',
-		path: '/student',
+		label: 'Hasil quiz peserta',
+		path: '/dashboard/checkStudent',
 		icon: ""
 	}
 ]
