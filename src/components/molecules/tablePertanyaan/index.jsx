@@ -7,11 +7,42 @@ import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useAuth } from '../../../hooks/useAuth';
 
 const index = (props) => {
-    const { data } = props
+    // const { data } = props
+    const {quizId} = props
+
+    const { infoLogin: { token: authToken } } = useAuth()
+
+    const [data,setData] = useState()
+    const [dummyCounter, setDummyCounter] = useState(0)
+
+    const getPertanyaan = async () => {
+
+        const response = await fetch(`${backendURL}/quiz/${quizId}/pertanyaan`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            }
+        })
+
+
+        if (response.status !== 200) {
+            
+            return
+        }
+
+        const data_json = await response.json()
+        setData(data_json)
+        setDummyCounter(dummyCounter+1)
+
+    }
+
+    useEffect(() => {
+        getPertanyaan()
+    }, [dummyCounter])
+
 
 
     
-    const { infoLogin: { token: authToken } } = useAuth()
 
     const navigate = useNavigate()
 
@@ -64,7 +95,7 @@ const index = (props) => {
                 transition: Bounce,
             });
         }
-        
+
 
     }
 
@@ -138,7 +169,7 @@ const index = (props) => {
                     </thead>
                     <tbody>
 
-                        {data.map((item, index) => {
+                        {data && data.map((item, index) => {
 
                             return (
                                 (

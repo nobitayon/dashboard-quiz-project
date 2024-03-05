@@ -195,7 +195,7 @@ const index = () => {
             </div>)}
         </form>
         <div className='flex flex-col w-full justify-center items-center'>
-          <TablePertanyaan data={pertanyaans} />
+          <TablePertanyaan data={pertanyaans} quizId={quizId} />
           <button type='submit' className='mt-10 w-1/3 btn btn-primary' onClick={()=>navigate(`/dashboard/quiz/${quizId}/newPertanyaan`)}>
             membuat pertanyaan baru 
           </button>
